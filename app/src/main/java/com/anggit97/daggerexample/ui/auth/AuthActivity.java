@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.android.support.DaggerAppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.anggit97.daggerexample.R;
 import com.anggit97.daggerexample.model.User;
+import com.anggit97.daggerexample.ui.main.MainActivity;
 import com.anggit97.daggerexample.viewmodels.ViewModelProviderFactory;
 import com.bumptech.glide.RequestManager;
 
@@ -37,6 +40,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
     private EditText etUserId;
     private Button btnLogin;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
         etUserId = findViewById(R.id.user_id_input);
         btnLogin = findViewById(R.id.login_button);
+        progressBar = findViewById(R.id.progress_bar);
 
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(AuthViewModel.class);
 
@@ -69,13 +74,49 @@ public class AuthActivity extends DaggerAppCompatActivity {
     }
 
     private void subscribToUser() {
-        viewModel.observeUser().observe(this, new Observer<User>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<User>>() {
             @Override
-            public void onChanged(User user) {
-                if (user != null){
-                    Log.d(TAG, "onChanged: "+user.getEmail());
+            public void onChanged(AuthResource<User> userAuthResource) {
+                if (userAuthResource != null) {
+                    switch (userAuthResource.status) {
+                        case LOADING:
+                            showProgress(true);
+                            break;
+                        case ERROR:
+                            showProgress(false);
+                            Toast.makeText(AuthActivity.this, "Did you enter number between 1 - 9?", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onChanged: " + userAuthResource.message +
+                                    "\n Did you enter number between 1 - 9?");
+                            break;
+                        case AUTHENTICATED:
+                            Log.d(TAG, "onChanged: Berhasil login " + userAuthResource.data.getEmail());
+                            Toast.makeText(AuthActivity.this, "Berhasil Login " + userAuthResource.data.getEmail(), Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                            navMainScreen();
+                            break;
+                        case NOT_AUTHENTICATED:
+                            Log.d(TAG, "onChanged: Not Authenticate");
+                            Toast.makeText(AuthActivity.this, "Logout.", Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                            break;
+                    }
                 }
             }
         });
+    }
+
+    private void showProgress(boolean isLoading) {
+        progressBar.setIndeterminate(isLoading);
+        if (isLoading) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void navMainScreen() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

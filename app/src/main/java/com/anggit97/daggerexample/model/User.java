@@ -31,6 +31,25 @@ public class User {
         this.website = website;
     }
 
+    public User() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     public int getId() {
         return id;
     }
