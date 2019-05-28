@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.anggit97.daggerexample.BaseActivity;
 import com.anggit97.daggerexample.R;
+import com.anggit97.daggerexample.ui.main.posts.PostFragment;
 import com.anggit97.daggerexample.ui.main.profile.ProfileFragment;
 
 import androidx.annotation.Nullable;
@@ -26,7 +27,7 @@ public class MainActivity extends BaseActivity {
 
     private void testFragment(){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new ProfileFragment(), "Profile Fragment")
+                .replace(R.id.container, new PostFragment(), "Profile Fragment")
                 .commit();
     }
 

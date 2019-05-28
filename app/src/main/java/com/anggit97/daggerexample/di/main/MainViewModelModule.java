@@ -1,6 +1,7 @@
 package com.anggit97.daggerexample.di.main;
 
 import com.anggit97.daggerexample.di.ViewModelKey;
+import com.anggit97.daggerexample.ui.main.posts.PostViewModel;
 import com.anggit97.daggerexample.ui.main.profile.ProfileViewModel;
 
 import androidx.lifecycle.ViewModel;
@@ -18,4 +19,9 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel.class)
     public abstract ViewModel bindProfileViewModel(ProfileViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostViewModel.class)
+    public abstract ViewModel bindPostViewModel(PostViewModel viewModel);
 }
