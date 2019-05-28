@@ -2,13 +2,10 @@ package com.anggit97.daggerexample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.anggit97.daggerexample.model.User;
 import com.anggit97.daggerexample.ui.auth.AuthActivity;
 import com.anggit97.daggerexample.ui.auth.AuthResource;
-import com.anggit97.daggerexample.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -22,7 +19,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class BaseActivity extends DaggerAppCompatActivity {
 
     @Inject
-    SessionManager sessionManager;
+    public SessionManager sessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
