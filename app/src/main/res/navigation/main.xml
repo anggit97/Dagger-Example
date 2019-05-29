@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/profileScreen"
+    android:id="@+id/main">
+
+    <fragment
+        android:id="@+id/profileScreen"
+        android:name="com.anggit97.daggerexample.ui.main.profile.ProfileFragment"
+        android:label="@string/label_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/postScreen"
+        android:name="com.anggit97.daggerexample.ui.main.posts.PostFragment"
+        android:label="@string/label_post"
+        tools:layout="@layout/fragment_posts" />
+
+</navigation>
